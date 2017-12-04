@@ -3,6 +3,11 @@ FROM resin/rpi-raspbian:stretch
 # Enable building ARM container on x86 machinery on the web (comment out next line if built on Raspberry)
 RUN [ "cross-build-start" ]
 
+RUN tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.aliyun.com/raspbian/raspbian/ stretch main contrib non-free rpi
+deb-src https://mirrors.aliyun.com/raspbian/raspbian/ stretch main contrib non-free rpi
+EOF
+
 RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommends xserver-xorg xinit \
      fbset libraspberrypi0 alsa-base alsa-utils alsa-tools kodi xserver-xorg-legacy dbus-x11 \
      && apt-get clean && rm -rf /var/lib/apt/lists/*
